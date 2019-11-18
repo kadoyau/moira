@@ -27,7 +27,9 @@ class ToranoanaChecklistGenerator {
     private spreadSheetManipulator: SpreadSheetManipulator;
 
     constructor() {
-        this.spreadSheetManipulator = new SpreadSheetManipulator();
+        // TODO: 名前変更
+        const sheetName = PropertiesService.getScriptProperties().getProperty("SHEET_NAME");
+        this.spreadSheetManipulator = new SpreadSheetManipulator(sheetName);
     }
 
     /**

@@ -5,7 +5,6 @@ import Shinkan from "./Shinkan";
 
 class SpreadSheetManipulator {
     private SPREAD_SHEET_ID = PropertiesService.getScriptProperties().getProperty("SPREAD_SHEET_ID");
-    private SHEET_NAME = PropertiesService.getScriptProperties().getProperty("SHEET_NAME");
     private spreadSheet: GoogleAppsScript.Spreadsheet.Spreadsheet;
     private sheet: GoogleAppsScript.Spreadsheet.Sheet;
     private readonly colmunMapper = {
@@ -16,10 +15,12 @@ class SpreadSheetManipulator {
         createdAt: 4,
         updatedAt: 5,
     };
+    private sheetName: string;
 
-    constructor() {
+    constructor(sheetName: string) {
+        this.sheetName = sheetName;
         this.spreadSheet = SpreadsheetApp.openById(this.SPREAD_SHEET_ID);
-        this.sheet = this.spreadSheet.getSheetByName(this.SHEET_NAME);
+        this.sheet = this.spreadSheet.getSheetByName(this.sheetName);
     }
 
     /**
