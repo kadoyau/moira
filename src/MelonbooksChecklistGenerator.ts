@@ -122,10 +122,6 @@ class MelonbooksChecklistGenerator {
      * 新刊情報のドラフトを返す
      *
      * @param mailPlainBody メール本文
-     * @return [["「登録サークル」のサークル名","「入荷商品一覧」の新刊タイトル\s+URL新刊タイトル2\s+URL2..."], ...]
-     * 「入荷商品一覧」のstringは、奇数行にタイトル、偶数行に商品リンクがある
-     * この時点では改行コードは複数の候補がある（[\r\n ]など）
-     *  例：この世界の終わりまで\nhttps://ec.toranoana.jp/tora_r/ec/item/040030655008/
      */
     private ShinkanDraftsFromMail(mailPlainBody: string): ShinkanDraft[] {
         const regexp = /\d+「(.*)」(\S*).*\s+(http[s]?:.+product_id=\d+).+\s+/g;
