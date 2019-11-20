@@ -6,9 +6,8 @@ import SpreadSheetManipulator from "./SpreadSheetManipulator";
 class MelonbooksChecklistGenerator extends ChecklistGenerator {
     constructor() {
         super();
-        // TODO: 名前変更
-        // const sheetName =   PropertiesService.getScriptProperties().getProperty("SHEET_NAME");
-        this.spreadSheetManipulator = new SpreadSheetManipulator("melonbooks");
+        const sheetName = PropertiesService.getScriptProperties().getProperty("MELONBOOKS_SHEET_NAME");
+        this.spreadSheetManipulator = new SpreadSheetManipulator(sheetName);
     }
 
     protected makeGmailQuery() {
