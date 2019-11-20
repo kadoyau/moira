@@ -22,13 +22,12 @@ class ToranoanaChecklistGenerator extends ChecklistGenerator {
      * 新刊情報のドラフトを返す
      *
      * @param mailPlainBody メール本文
-     * @return [["「登録サークル」のサークル名","「入荷商品一覧」の新刊タイトル\s+URL新刊タイトル2\s+URL2..."], ...]
-     * 「入荷商品一覧」のstringは、奇数行にタイトル、偶数行に商品リンクがある
-     * この時点では改行コードは複数の候補がある（[\r\n ]など）
-     *  例：この世界の終わりまで\nhttps://ec.toranoana.jp/tora_r/ec/item/040030655008/
      */
     protected getShinkanDraftsFromMail(mailPlainBody: string): IShinkanDraft[] {
         const regexp = /■登録サークル\s+(.*)\s+■入荷商品一覧\s+((?:.*\s+http[s]?:.*\s+)+)/g;
+        // 「入荷商品一覧」のstringは、奇数行にタイトル、偶数行に商品リンクがある
+        // この時点では改行コードは複数の候補がある（[\r\n ]など）
+        // 例：この世界の終わりまで\nhttps://ec.toranoana.jp/tora_r/ec/item/040030655008/
         const circleNameAndShinkanInfoDrafts = ToranoanaChecklistGenerator.executeRegExp(regexp, mailPlainBody);
 
         const shinkans = [];
@@ -40,8 +39,8 @@ class ToranoanaChecklistGenerator extends ChecklistGenerator {
                 shinkans.push(
                     {
                         circleName,
-                        title: tileAndUrl[0],
-                        url: tileAndUrl[1],
+                        title: tileAndUrl.title,
+                        url: tileAndUrl.url,
                     });
             });
         });
@@ -51,15 +50,15 @@ class ToranoanaChecklistGenerator extends ChecklistGenerator {
     /**
      * 新刊のタイトルと購入URLの配列を返す
      * @param shinkanInfoDrafts "新刊タイトル1\nURL1/n新刊タイトル2\nURL2"
-     * @return [["新刊タイトル1", "URL1"], ["新刊タイトル2", "URL2"]]
      */
-    private getTitleAndUrls(shinkanInfoDrafts: string): Array<[string, string]> {
+    private getTitleAndUrls(shinkanInfoDrafts: string): Array<{ title: string, url: string }> {
         const productRegExp = /(.*)\s+(http[s]?.*)/g;
         const titleANdUrlDrafts = ToranoanaChecklistGenerator.executeRegExp(productRegExp, shinkanInfoDrafts);
         return titleANdUrlDrafts.map((titleAndUrlDraft) => {
-            const title: string = titleAndUrlDraft[1].trim();
-            const url: string = titleAndUrlDraft[2].trim();
-            return [title, url];
+            return {
+                title: titleAndUrlDraft[1].trim(),
+                url: titleAndUrlDraft[2].trim(),
+            };
         });
     }
 
