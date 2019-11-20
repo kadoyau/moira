@@ -3,7 +3,7 @@ import ToranoanaChecklistGenerator from "./ToranoanaChecklistGenerator";
 
 function main() {
     const checklistGenerator = new ToranoanaChecklistGenerator();
-    checklistGenerator.saveProductsFromPromotionMail();
+    checklistGenerator.saveShinkansFromPromotionMail();
     const melonbooksChecklistGenerator = new MelonbooksChecklistGenerator();
-    melonbooksChecklistGenerator.saveProductsFromPromotionMail();
+    melonbooksChecklistGenerator.saveShinkansFromPromotionMail();
 }

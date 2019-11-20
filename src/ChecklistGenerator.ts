@@ -32,7 +32,7 @@ abstract class ChecklistGenerator {
     /**
      * UseCase
      */
-    public saveProductsFromPromotionMail() {
+    public saveShinkansFromPromotionMail() {
         const query = this.makeGmailQuery();
         const threads = GmailApp.search(query);
 
