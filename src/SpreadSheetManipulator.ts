@@ -48,7 +48,6 @@ class SpreadSheetManipulator {
         // メールが送られてきた日で更新する
         this.sheet.getRange(existingShinkan.rowIndex, this.colmunMapper.updatedAt)
             .setValue(Utilities.formatDate(shinkan.createdAt, "JST", "yyyy/MM/dd"));
-        Logger.log(this.sheet.getRange(existingShinkan.rowIndex, this.colmunMapper.updatedAt).getValue());
     }
 
     public fetchShinkans(): Shinkan[] {
