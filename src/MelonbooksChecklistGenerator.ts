@@ -1,15 +1,12 @@
 import ChecklistGenerator from "./ChecklistGenerator";
 import {IShinkanDraft} from "./IShinkanDraft";
-import SpreadSheetManipulator from "./SpreadSheetManipulator";
 
 class MelonbooksChecklistGenerator extends ChecklistGenerator {
     protected fromAddress = "tsuhan@melonbooks.co.jp";
     protected mailTitle = "新着アイテムのお知らせ";
 
     constructor() {
-        super();
-        const sheetName = PropertiesService.getScriptProperties().getProperty("MELONBOOKS_SHEET_NAME");
-        this.spreadSheetManipulator = new SpreadSheetManipulator(sheetName);
+        super("MELONBOOKS_SHEET_NAME");
     }
 
     /**
