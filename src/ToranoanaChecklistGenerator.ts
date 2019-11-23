@@ -6,7 +6,6 @@ import SpreadSheetManipulator from "./SpreadSheetManipulator";
 class ToranoanaChecklistGenerator extends ChecklistGenerator {
     constructor() {
         super();
-        // TODO: 名前変更
         const sheetName = PropertiesService.getScriptProperties().getProperty("TORANOANA_SHEET_NAME");
         this.spreadSheetManipulator = new SpreadSheetManipulator(sheetName);
     }
