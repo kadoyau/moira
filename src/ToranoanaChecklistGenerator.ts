@@ -1,20 +1,12 @@
 import ChecklistGenerator from "./ChecklistGenerator";
-import GmailQueryBuilder from "./GmailQueryBuilder";
 import {IShinkanDraft} from "./IShinkanDraft";
-import SpreadSheetManipulator from "./SpreadSheetManipulator";
 
 class ToranoanaChecklistGenerator extends ChecklistGenerator {
+    protected fromAddress = "shop@toranoana.co.jp";
+    protected mailTitle = "【株式会社　虎の穴】商品入荷のお知らせ（サークル）";
+
     constructor() {
-        super();
-        const sheetName = PropertiesService.getScriptProperties().getProperty("TORANOANA_SHEET_NAME");
-        this.spreadSheetManipulator = new SpreadSheetManipulator(sheetName);
-    }
-
-    protected makeGmailQuery() {
-        const tranoanaGoodsReceivedMailTitle = "【株式会社　虎の穴】商品入荷のお知らせ（サークル）";
-        const dateAfterQuery = GmailQueryBuilder.createDateAfterQuery(3);
-
-        return [tranoanaGoodsReceivedMailTitle, dateAfterQuery].join(" ");
+        super("TORANOANA_SHEET_NAME");
     }
 
     /**

@@ -1,3 +1,4 @@
+import GmailQueryBuilder from "./GmailQueryBuilder";
 import {IShinkanDraft} from "./IShinkanDraft";
 import Shinkan from "./Shinkan";
 import SpreadSheetManipulator from "./SpreadSheetManipulator";
@@ -28,11 +29,33 @@ abstract class ChecklistGenerator {
     }
 
     protected spreadSheetManipulator: SpreadSheetManipulator;
+    /**
+     * 実行時からこの日数より前までのメールが実行対象
+     */
+    protected mailFromDaysAgo: number;
+    /**
+     * メールを送ってくるショップのアドレス
+     */
+    protected abstract fromAddress: string;
+    /**
+     * ショップから送られてくるメールのタイトル
+     */
+    protected abstract mailTitle: string;
+
+    /**
+     * IMPORTANT: YOU MUST CALL THIS CONSTRUCTOR
+     * @param sheetNameKey
+     */
+    protected constructor(sheetNameKey: string) {
+        this.mailFromDaysAgo = Number(PropertiesService.getScriptProperties().getProperty("MAIL_FROM_DAYS_AGO"));
+        const sheetName = PropertiesService.getScriptProperties().getProperty(sheetNameKey);
+        this.spreadSheetManipulator = new SpreadSheetManipulator(sheetName);
+    }
 
     /**
      * UseCase
      */
-    public saveShinkansFromPromotionMail() {
+    public saveShinkansFromPromotionMail(): void {
         const query = this.makeGmailQuery();
         const threads = GmailApp.search(query);
 
@@ -52,11 +75,14 @@ abstract class ChecklistGenerator {
         });
     }
 
+    protected makeGmailQuery(): string {
+        const dateAfterQuery = GmailQueryBuilder.createDateAfterQuery(this.mailFromDaysAgo);
+        return [`from:(${this.fromAddress})`, this.mailTitle, dateAfterQuery].join(" ");
+    }
+
     /**
      * 継承したサービスで実装してください
      */
-    protected abstract makeGmailQuery(): string;
-
     protected abstract getShinkanDraftsFromMail(mailPlainBody: string): IShinkanDraft[];
 
     /**

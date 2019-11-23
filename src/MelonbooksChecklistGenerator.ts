@@ -1,20 +1,12 @@
 import ChecklistGenerator from "./ChecklistGenerator";
-import GmailQueryBuilder from "./GmailQueryBuilder";
 import {IShinkanDraft} from "./IShinkanDraft";
-import SpreadSheetManipulator from "./SpreadSheetManipulator";
 
 class MelonbooksChecklistGenerator extends ChecklistGenerator {
-    constructor() {
-        super();
-        const sheetName = PropertiesService.getScriptProperties().getProperty("MELONBOOKS_SHEET_NAME");
-        this.spreadSheetManipulator = new SpreadSheetManipulator(sheetName);
-    }
+    protected fromAddress = "tsuhan@melonbooks.co.jp";
+    protected mailTitle = "新着アイテムのお知らせ";
 
-    protected makeGmailQuery() {
-        const melonbooksMailAddress = "tsuhan@melonbooks.co.jp";
-        const melonBooksGoodsReceivedMailTitle = "新着アイテムのお知らせ";
-        const dateAfterQuery = GmailQueryBuilder.createDateAfterQuery(3);
-        return [`from:(${melonbooksMailAddress})`, melonBooksGoodsReceivedMailTitle, dateAfterQuery].join(" ");
+    constructor() {
+        super("MELONBOOKS_SHEET_NAME");
     }
 
     /**
