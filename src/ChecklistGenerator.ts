@@ -48,6 +48,7 @@ abstract class ChecklistGenerator {
                 // Logger.log(exsistingShinkans);
                 this.saveShinkan(shinkans, existingShinkans, date);
             });
+            GmailApp.moveThreadToArchive(thread);
         });
     }
 
@@ -106,7 +107,7 @@ abstract class ChecklistGenerator {
         exsistingShinkans.some((exsistingShinkan) => {
             if (exsistingShinkan.url === shinkan.url) {
                 this.spreadSheetManipulator.updateShinkanUpdatedAt(shinkan, exsistingShinkan);
-                Logger.log(shinkan.title + "は一致したので日付だけ更新");
+                Logger.log(shinkan.title + "is already exists. Update date column only.");
                 updated = true;
                 // someにtrueを返すことでbreak扱いになる
                 // @see https://scrapbox.io/kadoyau/JavaScript%E3%81%AE%E9%85%8D%E5%88%97
